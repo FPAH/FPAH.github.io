@@ -25,8 +25,8 @@
 
     .card{
       width:100%;
-      max-width:720px; /* keeps it nice on large screens */
-      height:100vh; /* fill mobile screen */
+      max-width:720px;
+      height:100vh;
       box-sizing:border-box;
       padding:24px 16px;
       display:flex;
@@ -34,6 +34,8 @@
       align-items:center;
       justify-content:center;
       gap:18px;
+      position:relative;
+      overflow:hidden;
     }
 
     .img-row{
@@ -46,7 +48,7 @@
 
     .img-wrap{
       position:relative;
-      width:28vw; /* responsive small pictures */
+      width:28vw;
       max-width:140px;
       min-width:72px;
       aspect-ratio: 4 / 3;
@@ -63,7 +65,6 @@
       display:block;
     }
 
-    /* hearts layered on top */
     .heart{
       position:absolute;
       pointer-events:none;
@@ -93,7 +94,6 @@
       text-shadow: 0 3px 18px rgba(255,107,154,0.08);
     }
 
-    /* decorative hearts behind the main text */
     .center-decor{
       position:relative;
       display:inline-block;
@@ -102,7 +102,7 @@
     }
     .center-decor::before,
     .center-decor::after{
-      content:'\2764'; /* heart */
+      content:'\2764';
       position:absolute;
       font-size:26px;
       opacity:0.12;
@@ -112,15 +112,63 @@
     .center-decor::before{left:-10px; top:-8px;}
     .center-decor::after{right:-10px; bottom:-8px; transform:rotate(10deg)}
 
-    /* make sure rows are small on short screens */
+    .border-text{
+      position:absolute;
+      white-space:nowrap;
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:2px;
+      color:var(--accent);
+      opacity:0.4;
+      pointer-events:none;
+    }
+
+    /* scrolling animations */
+    @keyframes scroll-h {
+      0% { transform:translateX(0); }
+      100% { transform:translateX(-50%); }
+    }
+    @keyframes scroll-v {
+      0% { transform:translateY(0); }
+      100% { transform:translateY(-50%); }
+    }
+
+    .scroll-container{
+      position:absolute;
+      overflow:hidden;
+      width:100%;
+      height:20px;
+    }
+    .scroll-inner{
+      display:inline-block;
+      animation:scroll-h 10s linear infinite;
+    }
+
+    .scroll-container-vertical{
+      position:absolute;
+      overflow:hidden;
+      height:100%;
+      width:20px;
+    }
+    .scroll-inner-vertical{
+      display:inline-block;
+      writing-mode: vertical-rl;
+      animation:scroll-v 10s linear infinite;
+    }
+
+    .bottom-text{ bottom:0; left:0; }
+    .top-text{ top:0; left:0; transform:rotate(180deg); }
+    .right-text{ top:0; right:0; }
+    .left-text{ top:0; left:0; transform:rotate(180deg); }
+
     @media (max-height:520px){
       .card{padding:12px}
       .img-wrap{max-width:110px}
     }
 
-    /* accessibility: prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce){
       .heart{animation:none}
+      .scroll-inner, .scroll-inner-vertical{animation:none}
     }
 
   </style>
@@ -170,6 +218,21 @@
         <div class="heart" style="left:6%; bottom:18%">💞</div>
         <div class="heart small" style="right:8%; top:10%">❤</div>
       </div>
+    </div>
+
+    <!-- Scrolling border texts -->
+    <div class="scroll-container bottom-text">
+      <div class="scroll-inner">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
+    </div>
+    <div class="scroll-container top-text">
+      <div class="scroll-inner">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
+    </div>
+
+    <div class="scroll-container-vertical right-text">
+      <div class="scroll-inner-vertical">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
+    </div>
+    <div class="scroll-container-vertical left-text">
+      <div class="scroll-inner-vertical">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
     </div>
 
   </main>
