@@ -28,7 +28,7 @@
       max-width:720px;
       height:100vh;
       box-sizing:border-box;
-      padding:24px 16px;
+      padding:24px 16px 60px;
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -112,18 +112,6 @@
     .center-decor::before{left:-10px; top:-8px;}
     .center-decor::after{right:-10px; bottom:-8px; transform:rotate(10deg)}
 
-    .border-text{
-      position:absolute;
-      white-space:nowrap;
-      font-size:14px;
-      font-weight:600;
-      letter-spacing:2px;
-      color:var(--accent);
-      opacity:0.4;
-      pointer-events:none;
-    }
-
-    /* scrolling animations */
     @keyframes scroll-h {
       0% { transform:translateX(0); }
       100% { transform:translateX(-50%); }
@@ -161,6 +149,41 @@
     .right-text{ top:0; right:0; }
     .left-text{ top:0; left:0; transform:rotate(180deg); }
 
+    .input-area{
+      position:absolute;
+      bottom:8px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .input-area input{
+      padding:6px 10px;
+      border-radius:6px;
+      border:1px solid #ccc;
+      font-size:14px;
+    }
+    .input-area button{
+      padding:6px 12px;
+      border:none;
+      border-radius:6px;
+      background:var(--accent);
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .reset-btn{
+      margin-top:6px;
+      font-size:12px;
+      cursor:pointer;
+      background:none;
+      border:none;
+      color:var(--text);
+      opacity:0.6;
+      text-decoration:underline;
+    }
+
     @media (max-height:520px){
       .card{padding:12px}
       .img-wrap{max-width:110px}
@@ -184,7 +207,7 @@
       </div>
 
       <div class="img-wrap">
-        <img src="cutekitties/cute2.webp" alt="cute kitten"/>
+        <img src="cutekitties/cute2.jpg" alt="cute kitten"/>
         <div class="heart" style="left:30%; top:6%">💖</div>
         <div class="heart small" style="right:6%; top:48%">❤</div>
       </div>
@@ -214,28 +237,68 @@
       </div>
 
       <div class="img-wrap">
-        <img src="cutekitties/cute6.webp" alt="cute kitten"/>
+        <img src="cutekitties/cute6.jpg" alt="cute kitten"/>
         <div class="heart" style="left:6%; bottom:18%">💞</div>
         <div class="heart small" style="right:8%; top:10%">❤</div>
       </div>
     </div>
 
     <!-- Scrolling border texts -->
-    <div class="scroll-container bottom-text">
-      <div class="scroll-inner">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
-    </div>
-    <div class="scroll-container top-text">
-      <div class="scroll-inner">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
-    </div>
+    <div class="scroll-container bottom-text"><div class="scroll-inner" id="scroll-bottom"></div></div>
+    <div class="scroll-container top-text"><div class="scroll-inner" id="scroll-top"></div></div>
+    <div class="scroll-container-vertical right-text"><div class="scroll-inner-vertical" id="scroll-right"></div></div>
+    <div class="scroll-container-vertical left-text"><div class="scroll-inner-vertical" id="scroll-left"></div></div>
 
-    <div class="scroll-container-vertical right-text">
-      <div class="scroll-inner-vertical">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
+    <!-- Input Area -->
+    <div class="input-area" id="input-area">
+      <input type="text" id="word-input" placeholder="Type a word" maxlength="20">
+      <button id="save-btn">Save</button>
     </div>
-    <div class="scroll-container-vertical left-text">
-      <div class="scroll-inner-vertical">LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • LOVE YOU • </div>
-    </div>
+    <button class="reset-btn" id="reset-btn" style="display:none;">Reset word</button>
 
   </main>
+
+  <script>
+    const scrollIds = ["scroll-bottom","scroll-top","scroll-right","scroll-left"];
+    const inputArea = document.getElementById("input-area");
+    const inputField = document.getElementById("word-input");
+    const saveBtn = document.getElementById("save-btn");
+    const resetBtn = document.getElementById("reset-btn");
+
+    function updateScroll(word){
+      const text = (word + " • ").repeat(20);
+      scrollIds.forEach(id => {
+        document.getElementById(id).textContent = text;
+      });
+    }
+
+    function saveWord(){
+      const word = inputField.value.trim();
+      if(word){
+        localStorage.setItem("scrollWord", word);
+        updateScroll(word);
+        inputArea.style.display = "none";
+        resetBtn.style.display = "block";
+      }
+    }
+
+    saveBtn.addEventListener("click", saveWord);
+
+    resetBtn.addEventListener("click", ()=>{
+      localStorage.removeItem("scrollWord");
+      location.reload();
+    });
+
+    // Init
+    const saved = localStorage.getItem("scrollWord");
+    if(saved){
+      updateScroll(saved);
+      inputArea.style.display = "none";
+      resetBtn.style.display = "block";
+    } else {
+      updateScroll("LOVE YOU");
+      inputArea.style.display = "flex";
+    }
+  </script>
 </body>
 </html>
-
