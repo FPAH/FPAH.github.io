@@ -266,7 +266,7 @@
     const resetBtn = document.getElementById("reset-btn");
 
     function updateScroll(word){
-      const text = (word + " • ").repeat(20);
+      const text = ("Want some "+ word + "? • ").repeat(20);
       scrollIds.forEach(id => {
         document.getElementById(id).textContent = text;
       });
@@ -302,5 +302,6 @@
   </script>
 </body>
 </html>
+
 
 
