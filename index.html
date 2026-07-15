@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>I LOVE YOU SO MUCH, drobec</title>
+  <title>something efficient for drobec</title>
   <style>
     :root{
       --bg1:#ffe6f0;
@@ -193,6 +193,94 @@
       .heart{animation:none}
       .scroll-inner, .scroll-inner-vertical{animation:none}
     }
+    .artist-card{
+    width:min(90vw,560px);
+    background:rgba(255,255,255,.88);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    backdrop-filter:blur(8px);
+    color:var(--text);
+}
+
+.artist-header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:18px;
+}
+
+.artist-photo{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid white;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.artist-info h2{
+    margin:0;
+    font-size:28px;
+}
+
+.artist-title{
+    margin:6px 0 0;
+    color:#666;
+    font-size:16px;
+}
+
+.artist-gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:18px 0;
+}
+
+.artist-gallery img{
+    width:100%;
+    aspect-ratio:1;
+    object-fit:cover;
+    border-radius:10px;
+    box-shadow:0 3px 8px rgba(0,0,0,.12);
+}
+
+.artist-bio p{
+    margin:0 0 16px;
+    line-height:1.6;
+    font-size:15px;
+}
+
+.artist-details{
+    display:grid;
+    gap:8px;
+    font-size:14px;
+}
+
+.artist-details strong{
+    color:var(--accent);
+}
+
+@media (max-width:600px){
+
+    .artist-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .artist-photo{
+        width:95px;
+        height:95px;
+    }
+
+    .artist-info h2{
+        font-size:24px;
+    }
+
+    .artist-gallery{
+        gap:8px;
+    }
+}
 
   </style>
 </head>
@@ -219,9 +307,40 @@
       </div>
     </div>
 
-    <div class="center-decor">
-      <h1>WANT SOME D, drobec?</h1>
+    <div class="artist-card">
+
+  <div class="artist-header">
+    <img src="artist/profile.jpg" alt="Artist portrait" class="artist-photo">
+
+    <div class="artist-info">
+      <h2>Jane Doe</h2>
+      <p class="artist-title">Visual Artist • Illustrator • Designer</p>
     </div>
+  </div>
+
+  <div class="artist-gallery">
+    <img src="artist/work1.jpg" alt="Artwork 1">
+    <img src="artist/work2.jpg" alt="Artwork 2">
+    <img src="artist/work3.jpg" alt="Artwork 3">
+  </div>
+
+  <div class="artist-bio">
+    <p>
+      Contemporary artist specializing in digital illustration,
+      mixed media, and visual storytelling. Passionate about
+      creating emotional, colorful works inspired by nature,
+      people, and everyday moments.
+    </p>
+
+    <div class="artist-details">
+      <div><strong>Based:</strong> Slovakia</div>
+      <div><strong>Experience:</strong> 5+ years</div>
+      <div><strong>Specialties:</strong> Illustration, Painting, Graphic Design</div>
+      <div><strong>Email:</strong> hello@example.com</div>
+    </div>
+  </div>
+
+</div>
 
     <div class="img-row" aria-hidden="true">
       <div class="img-wrap">
