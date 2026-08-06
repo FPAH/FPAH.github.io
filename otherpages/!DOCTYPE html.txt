@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Cat Height Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #f5f1e8;
+    }
+
+    /* =========================
+       CAT BACKGROUND
+    ========================== */
+
+    .cat-grid {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .cat {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      filter: saturate(0.9);
+    }
+
+    /* =========================
+       MAIN CONTENT
+    ========================== */
+
+    .main-content {
+      position: relative;
+      z-index: 10;
+
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .calculator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      padding: 25px;
+
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+      transition: transform 0.15s ease;
+    }
+
+    .calculator.bounce {
+      animation: bounceUp 0.45s ease;
+    }
+
+    @keyframes bounceUp {
+      0% {
+        transform: translateY(0);
+      }
+
+      35% {
+        transform: translateY(-10px);
+      }
+
+      65% {
+        transform: translateY(-5px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 18px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    input {
+      width: 120px;
+      padding: 11px 12px;
+
+      border: 2px solid #444;
+      border-radius: 10px;
+
+      background: rgba(255, 255, 255, 0.9);
+
+      font-size: 17px;
+      text-align: center;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #222;
+    }
+
+    button {
+      padding: 11px 16px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: #222;
+      color: white;
+
+      font-size: 16px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+    }
+
+    button:hover {
+      background: #444;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .result {
+      min-height: 30px;
+      margin-top: 15px;
+
+      font-size: 24px;
+      font-weight: bold;
+
+      text-align: center;
+      color: #222;
+    }
+
+    /* =========================
+       ANIMATED FRUITS
+    ========================== */
+
+    .fruit {
+      position: fixed;
+      z-index: 3;
+
+      font-size: clamp(25px, 5vw, 55px);
+
+      pointer-events: none;
+
+      animation: floatFruit 3s ease-in-out infinite;
+    }
+
+    .banana-1 {
+      top: 5%;
+      left: 3%;
+      animation-delay: 0s;
+    }
+
+    .pear-1 {
+      top: 8%;
+      right: 4%;
+      animation-delay: 0.7s;
+    }
+
+    .banana-2 {
+      bottom: 5%;
+      right: 3%;
+      animation-delay: 1.2s;
+    }
+
+    .pear-2 {
+      bottom: 8%;
+      left: 4%;
+      animation-delay: 1.8s;
+    }
+
+    .banana-3 {
+      top: 45%;
+      left: 2%;
+      animation-delay: 2.2s;
+    }
+
+    .pear-3 {
+      top: 45%;
+      right: 2%;
+      animation-delay: 2.7s;
+    }
+
+    @keyframes floatFruit {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+
+      50% {
+        transform: translateY(-12px) rotate(5deg);
+      }
+    }
+
+    /* =========================
+       MOBILE RESPONSIVENESS
+    ========================== */
+
+    @media (max-width: 600px) {
+      .cat-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      .calculator {
+        width: calc(100vw - 30px);
+        max-width: 400px;
+        padding: 20px 15px;
+      }
+
+      .input-row {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      label {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+
+      input {
+        flex: 1;
+        min-width: 100px;
+      }
+
+      button {
+        flex-shrink: 0;
+      }
+
+      .fruit {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .input-row {
+        flex-direction: column;
+      }
+
+      input,
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       4 CAT IMAGES
+  ========================== -->
+
+  <div class="cat-grid">
+
+    <img
+      class="cat"
+      src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80"
+      alt="Cat"
+    />
+
+    <img
+      class="cat"
+      src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80"
+      alt="Cat"
+    />
+
+    <img
+      class="cat"
+      src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=800&q=80"
+      alt="Cat"
+    />
+
+    <img
+      class="cat"
+      src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=80"
+      alt="Cat"
+    />
+
+  </div>
+
+
+  <!-- =========================
+       ANIMATED BANANAS & PEARS
+  ========================== -->
+
+  <div class="fruit banana-1">🍌</div>
+  <div class="fruit pear-1">🍐</div>
+
+  <div class="fruit banana-2">🍌</div>
+  <div class="fruit pear-2">🍐</div>
+
+  <div class="fruit banana-3">🍌</div>
+  <div class="fruit pear-3">🍐</div>
+
+
+  <!-- =========================
+       MAIN CALCULATOR
+  ========================== -->
+
+  <main class="main-content">
+
+    <div class="calculator" id="calculator">
+
+      <div class="input-row">
+
+        <label for="height">
+          Your height:
+        </label>
+
+        <input
+          id="height"
+          type="number"
+          placeholder="cm"
+          min="1"
+          step="any"
+        />
+
+        <button id="confirmButton">
+          Confirm
+        </button>
+
+      </div>
+
+      <div
+        class="result"
+        id="result"
+        aria-live="polite"
+      ></div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    const heightInput = document.getElementById("height");
+    const confirmButton = document.getElementById("confirmButton");
+    const result = document.getElementById("result");
+    const calculator = document.getElementById("calculator");
+
+
+    function calculateHeight() {
+
+      const height = parseFloat(heightInput.value);
+
+      // Do nothing if input is empty or invalid
+      if (isNaN(height) || height <= 0) {
+        result.textContent = "Please enter a valid height.";
+        return;
+      }
+
+      // Divide height by 7
+      const answer = height / 7;
+
+      // Show result
+      result.textContent = answer.toFixed(2);
+
+
+      // Restart bounce animation
+      calculator.classList.remove("bounce");
+
+      // Force browser to restart animation
+      void calculator.offsetWidth;
+
+      calculator.classList.add("bounce");
+    }
+
+
+    // Confirm button
+    confirmButton.addEventListener(
+      "click",
+      calculateHeight
+    );
+
+
+    // Allow pressing Enter
+    heightInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          calculateHeight();
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
